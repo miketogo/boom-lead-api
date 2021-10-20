@@ -45,11 +45,11 @@ module.exports.order = (req, res, next) => {
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
 
-\\[utm_source: ${utmMarks.utm_source}]
-\\[utm_medium: ${utmMarks.utm_medium}]
-\\[utm_campaign: ${utmMarks.utm_campaign}]
-\\[utm_term: ${utmMarks.utm_term}]
-\\[utm_content: ${utmMarks.utm_content}]
+(utm_source: ${utmMarks.utm_source})
+(utm_medium: ${utmMarks.utm_medium})
+(utm_campaign: ${utmMarks.utm_campaign})
+(utm_term: ${utmMarks.utm_term})
+(utm_content: ${utmMarks.utm_content})
 ————————————`, { parse_mode: 'Markdown' });
       } else {
         bot.sendMessage(-1001742268685,
@@ -63,11 +63,11 @@ module.exports.order = (req, res, next) => {
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
 
-\\[utm_source: ${utmMarks.utm_source}]
-\\[utm_medium: ${utmMarks.utm_medium}]
-\\[utm_campaign: ${utmMarks.utm_campaign}]
-\\[utm_term: ${utmMarks.utm_term}]
-\\[utm_content: ${utmMarks.utm_content}]
+(utm_source: ${utmMarks.utm_source})
+(utm_medium: ${utmMarks.utm_medium})
+(utm_campaign: ${utmMarks.utm_campaign})
+(utm_term: ${utmMarks.utm_term})
+(utm_content: ${utmMarks.utm_content})
 ————————————`, { parse_mode: 'Markdown' });
       }
 
