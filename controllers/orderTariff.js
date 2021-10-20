@@ -25,8 +25,10 @@ module.exports.order = (req, res, next) => {
     transferredNumber = false,
     deliveryMethod = false,
     userPhone,
-    fromMosсow
+    fromMosсow,
+    utm,
   } = req.body;
+  const utmMarks = JSON.parse(utm)
   const realDate = new Date
   let date = moment(realDate.toISOString()).tz("Europe/Moscow").format('D.MM.YYYY HH:mm:ss')
   if (productionMethod === "Купить новую SIM") {
@@ -45,6 +47,7 @@ module.exports.order = (req, res, next) => {
         userPhone,
         fromMosсow,
         date,
+        utm: utmMarks,
       })
         .then((result) => {
 
@@ -70,6 +73,12 @@ module.exports.order = (req, res, next) => {
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
 
 
@@ -98,6 +107,7 @@ module.exports.order = (req, res, next) => {
         userPhone,
         fromMosсow,
         date,
+        utm: utmMarks,
       })
         .then((result) => {
 
@@ -120,6 +130,12 @@ module.exports.order = (req, res, next) => {
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
 
 
@@ -148,6 +164,7 @@ module.exports.order = (req, res, next) => {
       userPhone,
       fromMosсow,
       date,
+      utm: utmMarks,
     })
       .then((result) => {
 
@@ -169,6 +186,12 @@ module.exports.order = (req, res, next) => {
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
 
 

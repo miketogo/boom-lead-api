@@ -19,6 +19,7 @@ router.post('/', celebrate({
     deliveryMethod: Joi.string(),
     userPhone: Joi.string().required(),
     fromMosсow: Joi.string().required(),
+    utm: Joi.string(),
   }),
 }), order);
 

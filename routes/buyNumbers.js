@@ -13,6 +13,7 @@ router.post('/', celebrate({
     numbersArray: Joi.array().required(),
     userPhone: Joi.string().required(),
     fromMosсow: Joi.string().required(),
+    utm: Joi.string(),
   }),
 }), order);
 

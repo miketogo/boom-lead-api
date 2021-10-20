@@ -47,6 +47,9 @@ const buyNumbersSchema = new mongoose.Schema({
     fromMosсow: {
         type: String,
         required: true,
+    },
+    utm:{
+        type: Object,
     }
 });
 

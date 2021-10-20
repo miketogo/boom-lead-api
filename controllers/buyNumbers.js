@@ -20,7 +20,9 @@ module.exports.order = (req, res, next) => {
     numbersArray,
     userPhone,
     fromMosсow,
+    utm,
   } = req.body;
+  const utmMarks = JSON.parse(utm)
   const realDate = new Date
   let date = moment(realDate.toISOString()).tz("Europe/Moscow").format('D.MM.YYYY HH:mm:ss')
   if (deliveryMethod === "Доставка") {
@@ -32,7 +34,8 @@ module.exports.order = (req, res, next) => {
       numbersArray,
       userPhone,
       fromMosсow,
-      date
+      date,
+      utm: utmMarks,
     })
       .then((result) => {
 
@@ -48,21 +51,27 @@ module.exports.order = (req, res, next) => {
 Адрес доставки: *${deliveryAddress}*
 
 ${numbersArray.map((item, i) => {
-  return`------------
-*Выбранный номер ${i+1}*
+            return `------------
+*Выбранный номер ${i + 1}*
 
 Номер: *${item.ctn}*
 Категория: *${item.category}*
 Тариф: *${item.tariffName}*
 Опции тарифа: *${item.tariffOptions}*
-Безлимитный 4G: *${item['Безлимитный 4G']? "Да": "Нет"}*
-Раздача интернета: *${item['Раздача интернета']? "Да": "Нет"}*
+Безлимитный 4G: *${item['Безлимитный 4G'] ? "Да" : "Нет"}*
+Раздача интернета: *${item['Раздача интернета'] ? "Да" : "Нет"}*
 `
           }).join("")}
 
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
 
 
@@ -84,7 +93,8 @@ ${numbersArray.map((item, i) => {
       numbersArray,
       userPhone,
       fromMosсow,
-      date
+      date,
+      utm: utmMarks,
     })
       .then((result) => {
 
@@ -97,21 +107,27 @@ ${numbersArray.map((item, i) => {
 Способ получения: *${deliveryMethod}*
 
 ${numbersArray.map((item, i) => {
-  return`------------
-*Выбранный номер ${i+1}*
+            return `------------
+*Выбранный номер ${i + 1}*
 
 Номер: *${item.ctn}*
 Категория: *${item.category}*
 Тариф: *${item.tariffName}*
 Опции тарифа: *${item.tariffOptions}*
-Безлимитный 4G: *${item['Безлимитный 4G']? "Да": "Нет"}*
-Раздача интернета: *${item['Раздача интернета']? "Да": "Нет"}*
+Безлимитный 4G: *${item['Безлимитный 4G'] ? "Да" : "Нет"}*
+Раздача интернета: *${item['Раздача интернета'] ? "Да" : "Нет"}*
 `
-}).join("")}
+          }).join("")}
 
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
 
 

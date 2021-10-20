@@ -16,8 +16,10 @@ module.exports.transfer = (req, res, next) => {
     transferDate,
     transferredNumber,
     userPhone,
-    fromMosсow
+    fromMosсow,
+    utm,
   } = req.body;
+  const utmMarks = JSON.parse(utm)
   const realDate = new Date
   let date = moment(realDate.toISOString()).tz("Europe/Moscow").format('D.MM.YYYY HH:mm:ss')
   trasferNumber.create({
@@ -26,6 +28,7 @@ module.exports.transfer = (req, res, next) => {
     userPhone,
     fromMosсow,
     date,
+    utm: utmMarks,
   })
     .then((result) => {
 
