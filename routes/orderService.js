@@ -9,6 +9,7 @@ router.post('/', celebrate({
     serviceName: Joi.string().required(),
     userPhone: Joi.string().required(),
     fromMosсow: Joi.string().required(),
+    utm: Joi.object(),
   }),
 }), order);
 

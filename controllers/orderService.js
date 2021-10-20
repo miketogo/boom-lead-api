@@ -13,12 +13,13 @@ const bot = new TelegramBot(token, { polling: false });
 
 module.exports.order = (req, res, next) => {
   const {
-    serviceName, userPhone, fromMosсow
+    serviceName, userPhone, fromMosсow, utm
   } = req.body;
+  const utmMarks = JSON.parse(utm)
   const realDate = new Date
   let date = moment(realDate.toISOString()).tz("Europe/Moscow").format('D.MM.YYYY HH:mm:ss')
   orderService.create({
-    serviceName, userPhone, fromMosсow, date
+    serviceName, userPhone, fromMosсow, date, utm: utmMarks
   })
     .then((result) => {
       // const opts = {
@@ -43,6 +44,12 @@ module.exports.order = (req, res, next) => {
 Телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
       } else {
         bot.sendMessage(-1001742268685,
