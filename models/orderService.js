@@ -21,7 +21,7 @@ const orderServiceSchema = new mongoose.Schema({
         required: true,
     },
     utm:{
-        type: Object
+        type: JSON,
     }
 });
 
