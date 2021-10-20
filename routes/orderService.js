@@ -9,13 +9,7 @@ router.post('/', celebrate({
     serviceName: Joi.string().required(),
     userPhone: Joi.string().required(),
     fromMosсow: Joi.string().required(),
-    utm: Joi.object().keys({
-      utm_content: Joi.string(),
-      utm_medium: Joi.string(),
-      utm_source: Joi.string(),
-      utm_term: Joi.string(),
-      utm_campaign: Joi.string(),
-    }),
+    utm: Joi.string(),
   }),
 }), order);
 
