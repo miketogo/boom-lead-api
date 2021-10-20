@@ -62,6 +62,12 @@ module.exports.order = (req, res, next) => {
 Телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
+
+[utm_source: ${utmMarks.utm_source}]
+[utm_medium: ${utmMarks.utm_medium}]
+[utm_campaign: ${utmMarks.utm_campaign}]
+[utm_term: ${utmMarks.utm_term}]
+[utm_content: ${utmMarks.utm_content}]
 ————————————`, { parse_mode: 'Markdown' });
       }
 
