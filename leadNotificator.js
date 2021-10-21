@@ -166,7 +166,7 @@ async function sendNotification() {
 
 
 
-      bot.sendMessage(435127720,
+      bot.sendMessage(-534419638,
         `
 *Статистика (${prevDate} 00:00) - (${nowDate} 00:00)*
 Поступило заявок: ${
@@ -494,16 +494,16 @@ async function leadNotificator() {
 
 
   // User.find({})
-  let nowDate = moment().tz("Europe/Moscow").format('HH mm')
+  let nowDate = moment().tz("Europe/Moscow").format('HH')
  
   
-  if(nowDate === '02 11'){
+  if(nowDate === '08'){
     console.log('___Обход начат___', nowDate)
     sendNotification()
     console.log('___Обход завершен___')
-    setTimeout(leadNotificator, 59000)
+    setTimeout(leadNotificator, 3600000)
   } else{
-    setTimeout(leadNotificator, 59000)
+    setTimeout(leadNotificator, 3600000)
   }
   
 
