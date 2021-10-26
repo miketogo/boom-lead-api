@@ -166,7 +166,7 @@ async function sendNotification() {
 
 
 
-      bot.sendMessage(-534419638,
+      bot.sendMessage(-708046919,
         `
 *Статистика (${prevDate} 00:00) - (${nowDate} 00:00)*
 Поступило заявок: ${
