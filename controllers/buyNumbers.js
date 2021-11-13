@@ -3,6 +3,9 @@ const TelegramBot = require('node-telegram-bot-api');
 
 
 const buyNumbers = require('../models/buyNumbers');
+const orderService = require('../models/orderService');
+const orderTariff = require('../models/orderTariff');
+const trasferNumber = require('../models/trasferNumber');
 const ConflictError = require('../errors/сonflict-err');
 const InvalidDataError = require('../errors/invalid-data-err');
 
@@ -25,35 +28,49 @@ module.exports.order = (req, res, next) => {
   const utmMarks = JSON.parse(utm)
   const realDate = new Date
   let date = moment(realDate.toISOString()).tz("Europe/Moscow").format('D.MM.YYYY HH:mm:ss')
-  if (deliveryMethod === "Доставка") {
-    buyNumbers.create({
-      deliveryDate,
-      deliveryTime,
-      deliveryAddress,
-      deliveryMethod,
-      numbersArray,
-      userPhone,
-      fromMosсow,
-      date,
-      utm: utmMarks,
-    })
-      .then((result) => {
+  let leadNumber = 0
+  buyNumbers.find()
+    .then((buyNumberLeads) => {
+      leadNumber = leadNumber + buyNumberLeads.length
+      orderService.find()
+        .then((orderServiceLeads) => {
+          leadNumber = leadNumber + orderServiceLeads.length
 
-        bot.sendMessage(-1001742268685,
-          `————————————
-        *Новая заявка*
+          orderTariff.find()
+            .then((orderTariffLeads) => {
+              leadNumber = leadNumber + orderTariffLeads.length
+              trasferNumber.find()
+                .then((trasferNumberLeads) => {
+                  leadNumber = leadNumber + trasferNumberLeads.length
+                  if (deliveryMethod === "Доставка") {
+                    buyNumbers.create({
+                      deliveryDate,
+                      deliveryTime,
+                      deliveryAddress,
+                      deliveryMethod,
+                      numbersArray,
+                      userPhone,
+                      fromMosсow,
+                      date,
+                      utm: utmMarks,
+                    })
+                      .then((result) => {
 
+                        bot.sendMessage(-1001742268685,
+                          `————————————
+Заявка №${leadNumber}
+                
 *Приобретение номера*
-
+                
 Способ получения: *${deliveryMethod}*
 Дата доставки: *${deliveryDate}*
 Время доставки: *${deliveryTime}*
 Адрес доставки: *${deliveryAddress}*
-
+                
 ${numbersArray.map((item, i) => {
-            return `------------
+                            return `------------
 *Выбранный номер ${i + 1}*
-
+                
 Номер: *${item.ctn}*
 Категория: *${item.category}*
 Тариф: *${item.tariffName}*
@@ -61,12 +78,12 @@ ${numbersArray.map((item, i) => {
 Безлимитный 4G: *${item['Безлимитный 4G'] ? "Да" : "Нет"}*
 Раздача интернета: *${item['Раздача интернета'] ? "Да" : "Нет"}*
 `
-          }).join("")}
-
+}).join("")}
+                
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
-
+                
 [utm_source: ${utmMarks.utm_source}]
 [utm_medium: ${utmMarks.utm_medium}]
 [utm_campaign: ${utmMarks.utm_campaign}]
@@ -75,41 +92,41 @@ ${numbersArray.map((item, i) => {
 ————————————`, { parse_mode: 'Markdown' });
 
 
-        res.status(200).send({ result })
-      })
-      .catch((err) => {
-        if (err.name === 'MongoError' && err.code === 11000) {
-          throw new ConflictError('При регистрации указан email, который уже существует на сервере');
-        }
-        if (err.name === 'ValidationError') {
-          throw new InvalidDataError('Переданы некорректные данные при создании пользователя');
-        }
-      })
-      .catch(next);
-  }
-  else {
-    buyNumbers.create({
-      deliveryMethod,
-      numbersArray,
-      userPhone,
-      fromMosсow,
-      date,
-      utm: utmMarks,
-    })
-      .then((result) => {
+                        res.status(200).send({ result })
+                      })
+                      .catch((err) => {
+                        if (err.name === 'MongoError' && err.code === 11000) {
+                          throw new ConflictError('При регистрации указан email, который уже существует на сервере');
+                        }
+                        if (err.name === 'ValidationError') {
+                          throw new InvalidDataError('Переданы некорректные данные при создании пользователя');
+                        }
+                      })
+                      .catch(next);
+                  }
+                  else {
+                    buyNumbers.create({
+                      deliveryMethod,
+                      numbersArray,
+                      userPhone,
+                      fromMosсow,
+                      date,
+                      utm: utmMarks,
+                    })
+                      .then((result) => {
 
-        bot.sendMessage(-1001742268685,
-          `————————————
-          *Новая заявка*
-
+                        bot.sendMessage(-1001742268685,
+                          `————————————
+Заявка №${leadNumber}
+                
 *Приобретение номера*
-
+                
 Способ получения: *${deliveryMethod}*
-
+                
 ${numbersArray.map((item, i) => {
-            return `------------
+                            return `------------
 *Выбранный номер ${i + 1}*
-
+                
 Номер: *${item.ctn}*
 Категория: *${item.category}*
 Тариф: *${item.tariffName}*
@@ -117,12 +134,12 @@ ${numbersArray.map((item, i) => {
 Безлимитный 4G: *${item['Безлимитный 4G'] ? "Да" : "Нет"}*
 Раздача интернета: *${item['Раздача интернета'] ? "Да" : "Нет"}*
 `
-          }).join("")}
-
+}).join("")}
+                
 Контактный телефон: *${userPhone}*
 Откуда заявка: *${fromMosсow}*
 Дата: *${date}*
-
+                
 [utm_source: ${utmMarks.utm_source}]
 [utm_medium: ${utmMarks.utm_medium}]
 [utm_campaign: ${utmMarks.utm_campaign}]
@@ -131,16 +148,28 @@ ${numbersArray.map((item, i) => {
 ————————————`, { parse_mode: 'Markdown' });
 
 
-        res.status(200).send({ result })
-      })
-      .catch((err) => {
-        if (err.name === 'MongoError' && err.code === 11000) {
-          throw new ConflictError('При регистрации указан email, который уже существует на сервере');
-        }
-        if (err.name === 'ValidationError') {
-          throw new InvalidDataError('Переданы некорректные данные при создании пользователя');
-        }
-      })
-      .catch(next);
-  }
+                        res.status(200).send({ result })
+                      })
+                      .catch((err) => {
+                        if (err.name === 'MongoError' && err.code === 11000) {
+                          throw new ConflictError('При регистрации указан email, который уже существует на сервере');
+                        }
+                        if (err.name === 'ValidationError') {
+                          throw new InvalidDataError('Переданы некорректные данные при создании пользователя');
+                        }
+                      })
+                      .catch(next);
+                  }
+                })
+
+                .catch(next)
+            })
+            .catch(next)
+        })
+
+        .catch(next)
+    })
+
+    .catch(next)
+
 };
