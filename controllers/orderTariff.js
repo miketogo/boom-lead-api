@@ -1,5 +1,6 @@
 const moment = require('moment-timezone');
 const TelegramBot = require('node-telegram-bot-api');
+const geoip = require('geoip-lite');
 
 const buyNumbers = require('../models/buyNumbers');
 const orderService = require('../models/orderService');
@@ -30,6 +31,7 @@ module.exports.order = (req, res, next) => {
     userPhone,
     fromMosсow,
     utm,
+    userIP,
   } = req.body;
   const utmMarks = JSON.parse(utm)
   const realDate = new Date
@@ -65,6 +67,7 @@ module.exports.order = (req, res, next) => {
                         fromMosсow,
                         date,
                         utm: utmMarks,
+                        userIP,
                       })
                         .then((result) => {
 
@@ -96,6 +99,7 @@ module.exports.order = (req, res, next) => {
 [utm_campaign: ${utmMarks.utm_campaign}]
 [utm_term: ${utmMarks.utm_term}]
 [utm_content: ${utmMarks.utm_content}]
+[IP: ${geoip.pretty(userIP)}]
 ————————————`, { parse_mode: 'Markdown' });
 
 
@@ -125,6 +129,7 @@ module.exports.order = (req, res, next) => {
                         fromMosсow,
                         date,
                         utm: utmMarks,
+                        userIP,
                       })
                         .then((result) => {
 
@@ -153,6 +158,7 @@ module.exports.order = (req, res, next) => {
 [utm_campaign: ${utmMarks.utm_campaign}]
 [utm_term: ${utmMarks.utm_term}]
 [utm_content: ${utmMarks.utm_content}]
+[IP: ${geoip.pretty(userIP)}]
 ————————————`, { parse_mode: 'Markdown' });
 
 
@@ -182,6 +188,7 @@ module.exports.order = (req, res, next) => {
                       fromMosсow,
                       date,
                       utm: utmMarks,
+                      userIP,
                     })
                       .then((result) => {
 
@@ -209,6 +216,7 @@ module.exports.order = (req, res, next) => {
 [utm_campaign: ${utmMarks.utm_campaign}]
 [utm_term: ${utmMarks.utm_term}]
 [utm_content: ${utmMarks.utm_content}]
+[IP: ${geoip.pretty(userIP)}]
 ————————————`, { parse_mode: 'Markdown' });
 
 

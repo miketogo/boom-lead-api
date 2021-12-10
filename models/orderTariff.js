@@ -67,7 +67,10 @@ const orderTariffSchema = new mongoose.Schema({
     },
     utm:{
         type: Object,
-    }
+    },
+    userIP: {
+        type: String,
+    },
 });
 
 // создаём модель и экспортируем её

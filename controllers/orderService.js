@@ -1,5 +1,6 @@
 const moment = require('moment-timezone');
 const TelegramBot = require('node-telegram-bot-api');
+const geoip = require('geoip-lite');
 
 
 const buyNumbers = require('../models/buyNumbers');
@@ -16,7 +17,7 @@ const bot = new TelegramBot(token, { polling: false });
 
 module.exports.order = (req, res, next) => {
   const {
-    serviceName, userPhone, fromMosсow, utm
+    serviceName, userPhone, fromMosсow, utm, userIP
   } = req.body;
   const utmMarks = JSON.parse(utm)
   const realDate = new Date
@@ -36,7 +37,7 @@ module.exports.order = (req, res, next) => {
                 .then((trasferNumberLeads) => {
                   leadNumber = leadNumber + trasferNumberLeads.length
                   orderService.create({
-                    serviceName, userPhone, fromMosсow, date, utm: utmMarks
+                    serviceName, userPhone, fromMosсow, date, utm: utmMarks, userIP
                   })
                     .then((result) => {
                       // const opts = {
@@ -67,6 +68,7 @@ module.exports.order = (req, res, next) => {
 [utm_campaign: ${utmMarks.utm_campaign}]
 [utm_term: ${utmMarks.utm_term}]
 [utm_content: ${utmMarks.utm_content}]
+[IP: ${geoip.pretty(userIP)}]
 ————————————`, { parse_mode: 'Markdown' });
                       } else {
                         bot.sendMessage(-1001742268685,
@@ -85,6 +87,7 @@ module.exports.order = (req, res, next) => {
 [utm_campaign: ${utmMarks.utm_campaign}]
 [utm_term: ${utmMarks.utm_term}]
 [utm_content: ${utmMarks.utm_content}]
+[IP: ${geoip.pretty(userIP)}]
 ————————————`, { parse_mode: 'Markdown' });
                       }
 

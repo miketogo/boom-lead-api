@@ -11,6 +11,7 @@ router.post('/', celebrate({
     userPhone: Joi.string().required(),
     fromMosсow: Joi.string().required(),
     utm: Joi.string(),
+    userIP: Joi.string(),
   }),
 }), transfer);
 
