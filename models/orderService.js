@@ -12,6 +12,7 @@ const orderServiceSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
     },
+    
     date:{
         type: String,
         required: true,
@@ -26,6 +27,7 @@ const orderServiceSchema = new mongoose.Schema({
     userIP: {
         type: String,
     },
+    
 });
 
 // создаём модель и экспортируем её
