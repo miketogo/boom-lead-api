@@ -299,7 +299,7 @@ module.exports.getNewCode = (req, res, next) => {
 
   const nowDate = new Date
   let dateMark = moment(nowDate.toISOString()).tz("Europe/Moscow").format('x')
-  let code = Math.floor(Math.random() * 10000)
+  let code = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
 
 
   buyNumbers.findById(order_id).orFail(() => new Error('NotFound'))
